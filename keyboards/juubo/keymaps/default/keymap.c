@@ -19,6 +19,7 @@
 #include "dip_switch.h"
 #include "keycodes.h"
 #include "print.h"
+#include "quantum_keycodes.h"
 
 #include QMK_KEYBOARD_H
 #include "keymap_finnish.h"
@@ -92,14 +93,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 // -----------------------------------------------------------------------------------------
 // | ~^ | ? | ! | @ | "|"\ |                                 |  ´  |   {   |  [( |  )] |  } |
-// | #  | - | + | = |  &   |                                 |PG_UP|LFTHOME| UP  | DWN |RGTEND|  // holdilla 
+// | #  | - | + | = |  &   |                                 |PG_UP|LFTHOME| UP  | DWN |RGTEND| 
 // | €  | % | / | ' |  "   |                                 |PG_DN|   <   |  ;  |  :  | >   | 
 //          | $ |___|      |                                 |     |       |LSFT |
 [_SYM] = LAYOUT(
-   TD(TLD_CRT),     FI_QUES,        FI_EXLM,        FI_AT,         TD(PIPE_BLSH),                 FI_ACUT,    LBRACE,      TD(PAR_BRK), TD(PAR_BRK_R), RBRACE,  
+   TD(TLD_CRT),     FI_QUES,        FI_EXLM,        FI_AT,         TD(PIPE_BLSH),                 FI_ACUT,    RALT(KC_7),      TD(PAR_BRK), TD(PAR_BRK_R), RALT(KC_0),  
    FI_HASH,         GUI_T(FI_MINS), SFT_T(FI_PLUS), TD(LALT_EQL),  FI_AMPR,                       KC_PGUP,    TD(CMD_LFT), KC_UP,       KC_DOWN,       TD(CMD_RGT),
-   S(KC_4),         S(KC_5),        FI_SLSH,        KC_BACKSLASH,  FI_DQUO,                       KC_PGDN,    KC_GRAVE,    FI_SCLN,     FI_COLN,        S(KC_GRAVE), 
-                                            FI_DLR,         _______,       _______,                       G(KC_C),    KC_LSFT,    G(KC_V)
+   RALT(KC_E),      S(KC_5),        FI_SLSH,        KC_BACKSLASH,  FI_DQUO,                       KC_PGDN,    KC_NUBS,     FI_SCLN,     FI_COLN,        S(KC_NUBS), 
+                                            FI_DLR,         _______,       _______,                       C(KC_C),    KC_LSFT,     C(KC_V)
 ),
 // -----------------------------------------------------------------------------------------
 // |  F1 | F2 |  F3  | F4  |  F5 |                           |     |  7  |  8  |  9  |      |
@@ -108,9 +109,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //            |  GUI |     |     |                           | ENT |     | ALT |
 [_NUM] = LAYOUT(
    KC_F1,    KC_F2,     KC_F3,         KC_F4,       KC_F5,                         _______,    KC_7,    KC_8,  KC_9, _______,  
-   KC_F6,    KC_F7,     KC_F8,         KC_F9,       KC_F10,                        KC_0,       KC_4,    KC_5,  KC_6, _______,
+   KC_F6,    KC_F7,     KC_F8,         KC_F9,       KC_F10,                        KC_0,       KC_4,    KC_5,  KC_6, KC_LEFT_GUI,
    _______,   _______,  KC_F11,        KC_F12,      _______,                       _______,    KC_1,    KC_2,  KC_3, _______, 
-                                KC_LEFT_CTRL,  KC_LEFT_GUI, _______,                       _______,    _______, _______
+                                KC_LEFT_CTRL,  _______, _______,                       _______,    _______, _______
 ),
 };
 //layer_state_t layer_state_set_user(layer_state_t state) {
@@ -216,12 +217,12 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
 
 // Tap Dance definitions
 tap_dance_action_t tap_dance_actions[] = {
-    [PIPE_BLSH] = ACTION_TAP_DANCE_DOUBLE(PIPE, RALT(S(KC_7))),
-    [TLD_CRT] = ACTION_TAP_DANCE_DOUBLE(FI_TILD, S(FI_TILD)),
+    [PIPE_BLSH] = ACTION_TAP_DANCE_DOUBLE(RALT(KC_NUBS), RALT(KC_MINUS)),
+    [TLD_CRT] = ACTION_TAP_DANCE_DOUBLE(FI_TILD, S(FI_DIAE)),
     [LALT_EQL] = ACTION_TAP_DANCE_TAP_HOLD(FI_EQL, KC_LALT),
     [PAR_BRK] = ACTION_TAP_DANCE_DOUBLE(FI_LPRN, FI_LBRC),
     [PAR_BRK_R] = ACTION_TAP_DANCE_DOUBLE(FI_RPRN, FI_RBRC),
-    [CMD_LFT] = ACTION_TAP_DANCE_TAP_HOLD(KC_LEFT, G(KC_LEFT)),
-    [CMD_RGT] = ACTION_TAP_DANCE_TAP_HOLD(KC_RIGHT, G(KC_RIGHT)),
+    [CMD_LFT] = ACTION_TAP_DANCE_TAP_HOLD(KC_LEFT, KC_HOME),
+    [CMD_RGT] = ACTION_TAP_DANCE_TAP_HOLD(KC_RIGHT, KC_END),
     [ODIA_ADIA] = ACTION_TAP_DANCE_DOUBLE(FI_ODIA, FI_ADIA),
 };
